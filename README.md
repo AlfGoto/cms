@@ -1,0 +1,1 @@
+The idea here is to create a CMS with simple options. I would like to make it free for everyone forever but i don't now if it will be possible. I will try to take that in consideration but i'm afraid that will impact the quality of the CMS so i will have to think about that
