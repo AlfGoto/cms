@@ -1,3 +1,5 @@
+import { cookies } from 'next/headers'
+
 export default function ErrorPage() {
-    return <p>Sorry, something went wrong</p>
+    return <p>{cookies().get('error').value}</p>
 }
