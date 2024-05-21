@@ -8,6 +8,7 @@
 
 body {
     display: flex;
+    overflow-x: hidden;
 
     #left {
         width: 25svw;
@@ -25,20 +26,25 @@ body {
 
     #menu {
         position: absolute;
-        display: flex;
-        gap: 1svw;
-        margin: 1svw;
-        height: 2.8svw;
-
-        & *{
-            &:hover {
-                border-color: gray;
-                color: gray;
+        
+        &>div{
+            display: flex;
+            gap: 1svw;
+            margin: 1svw;
+            height: 2.8svw;
+            /* width: 100svw; */
+    
+            & *{
+                &:hover {
+                    border-color: gray;
+                    color: gray;
+                }
             }
+
         }
 
         details {
-            list-style: none;
+            backdrop-filter: blur(1px);
             padding: .5svw;
             border: black 2px solid;
             border-radius: .3svw;

@@ -16,10 +16,10 @@ export default function RootLayout({ children }) {
     return (
         <html lang="en">
             <body className={inter.className}>
-                <div id="menu"><Menu /></div>
-                <div id="left"></div>
-                <div id="center">{children}</div>
-                <div id="right"></div>
+            <section id="menu"><Menu /></section>
+                <section id="left"></section>
+                <section id="center">{children}</section>
+                <section id="right"></section>
             </body>
         </html>
     );
