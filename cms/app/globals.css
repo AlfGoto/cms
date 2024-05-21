@@ -2,6 +2,8 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    user-select: none;
+    font-size: 1.2svw;
 }
 
 body {
@@ -20,16 +22,65 @@ body {
         height: 100svh;
         background-color: aqua;
     }
+
+    #menu {
+        position: absolute;
+        display: flex;
+        gap: 1svw;
+        margin: 1svw;
+        height: 2.8svw;
+
+        details {
+            list-style: none;
+            padding: .5svw;
+            border: black 2px solid;
+            border-radius: .3svw;
+            height: fit-content;
+            &:hover{
+                border-color: gray;
+                color: gray;
+            }
+
+            nav{
+                display: flex;
+                flex-direction: column;
+
+                a{
+                    color: black;
+                }
+            }
+        }
+        button{
+            padding: .5svw;
+            border: black 2px solid;
+            border-radius: .3svw;
+            background-color: transparent;
+
+            &:hover{
+                border-color: gray;
+                color: gray;
+            }
+        }
+    }
+}
+
+.hidden{
+    display: none;
 }
 
 
 
 
 
+
+
 @media (min-width: 0px) and (max-width: 600px) {
+    *{
+        font-size: 3.5svw;
+    }
     body {
 
-        #center{
+        #center {
             width: 100svw;
         }
         #left {
@@ -41,9 +92,12 @@ body {
     }
 }
 @media (min-width: 600px) and (max-width: 800px) {
+    *{
+        font-size: 2.5svw;
+    }
     body {
 
-        #center{
+        #center {
             width: 80svw;
         }
         #left {
@@ -55,9 +109,12 @@ body {
     }
 }
 @media (min-width: 800px) and (max-width: 1000px) {
+    *{
+        font-size: 2svw;
+    }
     body {
 
-        #center{
+        #center {
             width: 70svw;
         }
         #left {
@@ -69,9 +126,12 @@ body {
     }
 }
 @media (min-width: 1000px) and (max-width: 1200px) {
+    *{
+        font-size: 1.5svw;
+    }
     body {
 
-        #center{
+        #center {
             width: 60svw;
         }
         #left {

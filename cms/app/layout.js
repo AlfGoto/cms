@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Link from "next/link";
+import Menu  from './menu.jsx'
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -10,18 +10,14 @@ export const metadata = {
     description: "The simplest CMS ever",
 };
 
-function Nav() {
-    return (<nav>
-        <Link href='/'>Home</Link>
-        <Link href='/log'>Login</Link>
-    </nav>)
-}
+
 
 export default function RootLayout({ children }) {
     return (
         <html lang="en">
             <body className={inter.className}>
-                <div id="left"><Nav /></div>
+                <div id="menu"><Menu /></div>
+                <div id="left"></div>
                 <div id="center">{children}</div>
                 <div id="right"></div>
             </body>
