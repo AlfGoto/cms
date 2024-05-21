@@ -30,42 +30,48 @@ body {
         margin: 1svw;
         height: 2.8svw;
 
+        & *{
+            &:hover {
+                border-color: gray;
+                color: gray;
+            }
+        }
+
         details {
             list-style: none;
             padding: .5svw;
             border: black 2px solid;
             border-radius: .3svw;
             height: fit-content;
-            &:hover{
-                border-color: gray;
-                color: gray;
-            }
 
-            nav{
+            display: flex;
+            flex-direction: column;
+
+            nav {
                 display: flex;
                 flex-direction: column;
-
-                a{
-                    color: black;
-                }
+                gap: 1svw;
             }
         }
-        button{
+        button {
             padding: .5svw;
             border: black 2px solid;
             border-radius: .3svw;
             background-color: transparent;
+        }
+        a {
+            padding: .5svw;
+            border: black 2px solid;
+            border-radius: .3svw;
+            background-color: transparent;
+            color: black;
 
-            &:hover{
-                border-color: gray;
-                color: gray;
-            }
         }
     }
 }
 
-.hidden{
-    display: none;
+.hidden {
+    display: none !important;
 }
 
 
@@ -75,7 +81,7 @@ body {
 
 
 @media (min-width: 0px) and (max-width: 600px) {
-    *{
+    * {
         font-size: 3.5svw;
     }
     body {
@@ -92,7 +98,7 @@ body {
     }
 }
 @media (min-width: 600px) and (max-width: 800px) {
-    *{
+    * {
         font-size: 2.5svw;
     }
     body {
@@ -109,7 +115,7 @@ body {
     }
 }
 @media (min-width: 800px) and (max-width: 1000px) {
-    *{
+    * {
         font-size: 2svw;
     }
     body {
@@ -126,7 +132,7 @@ body {
     }
 }
 @media (min-width: 1000px) and (max-width: 1200px) {
-    *{
+    * {
         font-size: 1.5svw;
     }
     body {
