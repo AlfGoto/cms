@@ -27,15 +27,15 @@ body {
     #menu {
         position: absolute;
         /* margin: 5svw; */
-        
-        &>div{
+
+        &>div {
             display: flex;
             gap: 1svw;
             margin: 1svw;
             height: 2.8svw;
             /* width: 100svw; */
-    
-            & *{
+
+            & * {
                 backdrop-filter: blur(1px);
                 &:hover {
                     border-color: gray;
@@ -77,9 +77,23 @@ body {
             color: black;
 
         }
+        select {
+            padding: .5svw;
+            border: black 2px solid;
+            border-radius: .3svw;
+            background-color: transparent;
+            color: black;
+
+            &::-ms-expand {
+                display: none;
+            }
+            &:after{
+                background-color: transparent;
+            }
+        }
     }
 }
-#logForm{
+#logForm {
     margin-top: 2svw;
     display: flex;
     flex-direction: column;
@@ -92,8 +106,10 @@ body {
 
 
 
-@keyframes rotate180{
-    to{transform: rotate(180deg);}
+@keyframes rotate180 {
+    to {
+        transform: rotate(180deg);
+    }
 }
 
 

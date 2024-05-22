@@ -15,7 +15,7 @@ export default function Menu() {
     const { push } = useRouter();
 
     return (
-        <Draggable>
+        <Draggable allowAnyClick='false' cancel='select, details'>
             <div>
 
 
@@ -30,25 +30,30 @@ export default function Menu() {
                     <nav>
                         <Link href='/'>Home</Link>
                         <Link href='/log'>Login</Link>
+                        <Link href='/p'>Profile</Link>
                     </nav>
                 </details>
 
 
-                <details className={menuHidden ? 'hidden' : ''}>
+                {/* <details className={menuHidden ? 'hidden' : ''}>
                     <summary>Profile</summary>
                     <nav>
                         <button onClick={() => {
                             supabase.auth.signOut();
                             push('/log');
                         }}>Unlog</button>
-                        <Link href='/p'>Profile</Link>
                     </nav>
-                </details>
+                </details> */}
 
 
                 <details className={menuHidden ? 'hidden' : ''}>
                     <summary>Type</summary>
-                    truc
+                    <select name="type">
+                        <option value="0">Gallery</option>
+                        <option value="1">Carroussel</option>
+                        <option value="2">Linear Gallery</option>
+                        <option value="3">Article</option>
+                    </select>
                 </details>
 
 
