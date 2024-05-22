@@ -78,6 +78,9 @@ body {
 
         }
         select {
+
+            appearance: none;
+            -webkit-appearance: none;
             padding: .5svw;
             border: black 2px solid;
             border-radius: .3svw;
@@ -87,7 +90,7 @@ body {
             &::-ms-expand {
                 display: none;
             }
-            &:after{
+            &:after {
                 background-color: transparent;
             }
         }
