@@ -14,19 +14,52 @@ export default function Menu() {
     const [button, setButton] = useState('X');
     const [user, setUser] = useState(null);
 
+    const supabase = createClientComponentClient();
+
     async function getUser() {
         const { data: { user } } = await supabase.auth.getUser()
         setUser(user)
-    }
-    async function getImgs() {
 
+        if (user == null) {
+            console.log('REDIRECT')
+            push('/log')
+        }
     }
+
+    const uploadFile = async (event) => {
+        const file = event.target.files[0];
+        const bucket = "Images"
+
+        // Call Storage API to upload file
+        const { data, error } = await supabase.storage
+            .from(bucket)
+            .upload(Date.now() + '-' + user.email, file);
+
+        // Handle error if upload failed
+        if (error) {
+            console.log(error)
+            alert(error.error, error.message);
+            return;
+        }
+        console.log(data)
+        console.log(user)
+
+
+        const { data2, error2 } = await supabase
+            .from('img_list')
+            .insert([
+                { id_user: user.id, img: data.fullPath },
+            ])
+
+        console.log(error2)
+
+        alert('File uploaded successfully!');
+    };
 
     useEffect(() => {
         getUser()
     }, [])
 
-    const supabase = createClientComponentClient();
 
     const { push } = useRouter();
 
@@ -49,13 +82,8 @@ export default function Menu() {
         <>
             <div className={imgHidden ? 'hidden' : ''} id='imgDIV'>
                 <div id='addImgDiv'>
-                    <form action={uploadFile} className="flex flex-col gap-4">
-                        <label>
-                            <span>Upload a file</span>
-                            <input type="file" name="file" accept="image/gif, image/jpeg, image/png"/>
-                        </label>
-                        <button type="submit">Submit</button>
-                    </form>
+                    <h1>Upload Image</h1>
+                    <input type="file" onChange={uploadFile} accept='image/jpeg, image/jpg, image/png' />
                 </div>
             </div>
 

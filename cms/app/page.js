@@ -6,13 +6,22 @@ import { redirect } from 'next/navigation'
 
 export default async function Home() {
     const supabase = createClient()
+    // const [user, setUser] = useState(null);
 
+    // async function getUser() {
+    //     const { data: { user } } = await supabase.auth.getUser()
+    //     setUser(user)
 
-    const { data: { user } } = await supabase.auth.getUser()
+    //     if(user == null){
+    //         redirect('/log')
+    //     }
+    // }
+
+    // useEffect(()=>{
+    //     getUser()
+    // }, [])
+
     // console.log(user)
-    if(user == null){
-        redirect('/log')
-    }
 
   return (
     <>
