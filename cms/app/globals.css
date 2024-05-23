@@ -38,6 +38,9 @@ body {
             left: 50svw;
             transform: translate(-50%, -50%);
 
+            display: flex;
+            flex-direction: column;
+
             width: var(--widthImgMenu);
             height: fit-content;
             max-height: 80svh;
@@ -63,6 +66,17 @@ body {
                             color: gray;
                         }
                     }
+                }
+            }
+
+            #imageList{
+                display: flex;
+                flex-wrap: wrap;
+
+                img{
+                    
+                    max-height: 10svw;
+                    max-width: 10svw;
                 }
             }
 

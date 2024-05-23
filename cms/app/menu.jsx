@@ -13,16 +13,21 @@ export default function Menu() {
     const [imgHidden, setImgHidden] = useState(true);
     const [button, setButton] = useState('X');
     const [user, setUser] = useState(null);
+    const [imgList, setImgList] = useState([]);
 
+    let path = "https://qwxbnqtgqvaccdburxbp.supabase.co/storage/v1/object/public/"
     const supabase = createClientComponentClient();
 
     async function getUser() {
         const { data: { user } } = await supabase.auth.getUser()
         setUser(user)
 
-        if (user == null) {
+        console.log(user)
+        if (!user) {
             console.log('REDIRECT')
             push('/log')
+        } else {
+            getPics(user.id)
         }
     }
 
@@ -41,8 +46,8 @@ export default function Menu() {
             alert(error.error, error.message);
             return;
         }
-        console.log(data)
-        console.log(user)
+        // console.log(data)
+        // console.log(user)
 
 
         const { data2, error2 } = await supabase
@@ -51,9 +56,10 @@ export default function Menu() {
                 { id_user: user.id, img: data.fullPath },
             ])
 
-        console.log(error2)
+        // console.log(error2)
 
-        alert('File uploaded successfully!');
+        alert('Image uploaded successfully!');
+        getPics(user.id)
     };
 
     useEffect(() => {
@@ -78,12 +84,29 @@ export default function Menu() {
             .select()
     }
 
+    async function getPics(id) {
+
+        let { data: img_list, error } = await supabase
+            .from('img_list')
+            .select("img")
+            .eq('id_user', id)
+            .select()
+
+        setImgList(img_list)
+        // console.log(img_list)
+    }
+
+
     return (
         <>
             <div className={imgHidden ? 'hidden' : ''} id='imgDIV'>
                 <div id='addImgDiv'>
                     <h1>Upload Image</h1>
                     <input type="file" onChange={uploadFile} accept='image/jpeg, image/jpg, image/png' />
+                </div>
+                <div id='imageList'>
+                    {imgList?.map(i=><img src={path + i.img} key={i.id} alt='an image'></img>
+                    )}
                 </div>
             </div>
 
