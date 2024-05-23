@@ -1,3 +1,7 @@
+:root {
+    --widthImgMenu: 45svw;
+}
+
 * {
     padding: 0;
     margin: 0;
@@ -26,7 +30,47 @@ body {
 
     #menu {
         position: absolute;
-        /* margin: 5svw; */
+
+
+        #imgDIV {
+            position: absolute;
+            top: 50svh;
+            left: 50svw;
+            transform: translate(-50%, -50%);
+
+            width: var(--widthImgMenu);
+            height: fit-content;
+            max-height: 80svh;
+            border: 2px solid black;
+            backdrop-filter: blur(1px);
+            border-radius: .2svw;
+            padding: 1svw;
+
+            #addImgDiv{
+                border: 2px solid black;
+                width: 100%;
+                padding: 1svw;
+
+                input[type=file] {
+    
+                    &::file-selector-button {
+                        border-radius: .2svw;
+                        border: 2px solid black;
+                        background-color: transparent;
+
+                        &:hover{
+                            border-color: gray;
+                            color: gray;
+                        }
+                    }
+                }
+            }
+
+        }
+
+
+
+
 
         &>div {
             display: flex;
@@ -124,6 +168,10 @@ body {
 
 
 @media (min-width: 0px) and (max-width: 600px) {
+    :root {
+        --widthImgMenu: 75svw;
+    }
+
     * {
         font-size: 3.5svw;
     }
@@ -141,6 +189,10 @@ body {
     }
 }
 @media (min-width: 600px) and (max-width: 800px) {
+    :root {
+        --widthImgMenu: 65svw;
+    }
+
     * {
         font-size: 2.5svw;
     }
@@ -158,6 +210,10 @@ body {
     }
 }
 @media (min-width: 800px) and (max-width: 1000px) {
+    :root {
+        --widthImgMenu: 55svw;
+    }
+
     * {
         font-size: 2svw;
     }
@@ -175,6 +231,10 @@ body {
     }
 }
 @media (min-width: 1000px) and (max-width: 1200px) {
+    :root {
+        --widthImgMenu: 50svw;
+    }
+
     * {
         font-size: 1.5svw;
     }

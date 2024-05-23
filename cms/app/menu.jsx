@@ -6,14 +6,20 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
 import Draggable from 'react-draggable';
 
+import { uploadFile } from "./actions";
+
 export default function Menu() {
     const [menuHidden, setMenuHidden] = useState(false);
+    const [imgHidden, setImgHidden] = useState(true);
     const [button, setButton] = useState('X');
     const [user, setUser] = useState(null);
 
     async function getUser() {
         const { data: { user } } = await supabase.auth.getUser()
         setUser(user)
+    }
+    async function getImgs() {
+
     }
 
     useEffect(() => {
@@ -40,27 +46,75 @@ export default function Menu() {
     }
 
     return (
-        <Draggable allowAnyClick='false' cancel='select, details'>
-            <div>
+        <>
+            <div className={imgHidden ? 'hidden' : ''} id='imgDIV'>
+                <div id='addImgDiv'>
+                    <form action={uploadFile} className="flex flex-col gap-4">
+                        <label>
+                            <span>Upload a file</span>
+                            <input type="file" name="file" accept="image/gif, image/jpeg, image/png"/>
+                        </label>
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
+            </div>
 
 
-                <button onClick={() => {
-                    setButton(menuHidden ? 'X' : 'Menu')
-                    setMenuHidden(!menuHidden)
-                }} id='closeOpenButton'><p>{button}</p></button>
+
+            <Draggable allowAnyClick='false' cancel='select, details, button'>
+                <div>
 
 
-                <details className={menuHidden ? 'hidden' : ''}>
-                    <summary>Pages</summary>
-                    <nav>
-                        <Link href='/'>Home</Link>
-                        <Link href='/log'>Login</Link>
-                        <Link href='/p'>Profile</Link>
-                    </nav>
-                </details>
+                    <button onClick={() => {
+                        setButton(menuHidden ? 'X' : 'Menu')
+                        setMenuHidden(!menuHidden)
+                    }} id='closeOpenButton'><p>{button}</p></button>
 
 
-                {/* <details className={menuHidden ? 'hidden' : ''}>
+                    <details className={menuHidden ? 'hidden' : ''}>
+                        <summary>Pages</summary>
+                        <nav>
+                            <Link href='/'>Home</Link>
+                            <Link href='/log'>Login</Link>
+                            <Link href='/p'>Profile</Link>
+                        </nav>
+                    </details>
+
+                    <details className={menuHidden ? 'hidden' : ''}>
+                        <summary>Type</summary>
+                        <select name="type" onChange={typeSelect}>
+                            <option value="0">Gallery</option>
+                            <option value="1">Carroussel</option>
+                            <option value="2">Linear Gallery</option>
+                            <option value="3">Article</option>
+                        </select>
+                    </details>
+
+
+                    <details className={menuHidden ? 'hidden' : ''}>
+                        <summary>Theme</summary>
+                        <select name="type" onChange={themeSelect}>
+                            <option value="0">Dark White</option>
+                            <option value="1">Blue</option>
+                            <option value="2">Red</option>
+                            <option value="3">Green</option>
+                        </select>
+                    </details>
+
+                    <button onClick={() => { setImgHidden(!imgHidden) }}>
+                        Images
+                    </button>
+
+
+                </div>
+            </Draggable>
+
+        </>
+    )
+}
+
+
+{/* <details className={menuHidden ? 'hidden' : ''}>
                     <summary>Profile</summary>
                     <nav>
                         <button onClick={() => {
@@ -69,31 +123,3 @@ export default function Menu() {
                         }}>Unlog</button>
                     </nav>
                 </details> */}
-
-
-                <details className={menuHidden ? 'hidden' : ''}>
-                    <summary>Type</summary>
-                    <select name="type" onChange={typeSelect}>
-                        <option value="0">Gallery</option>
-                        <option value="1">Carroussel</option>
-                        <option value="2">Linear Gallery</option>
-                        <option value="3">Article</option>
-                    </select>
-                </details>
-
-
-                <details className={menuHidden ? 'hidden' : ''}>
-                    <summary>Theme</summary>
-                    <select name="type" onChange={themeSelect}>
-                        <option value="0">Dark White</option>
-                        <option value="1">Blue</option>
-                        <option value="2">Red</option>
-                        <option value="3">Green</option>
-                    </select>
-                </details>
-
-
-            </div>
-        </Draggable>
-    )
-}
