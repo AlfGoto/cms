@@ -6,7 +6,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
 import Draggable from 'react-draggable';
 
-import { uploadFile } from "./actions";
+import html from './createHTML'
 
 export default function Menu() {
     const [menuHidden, setMenuHidden] = useState(false);
@@ -14,8 +14,12 @@ export default function Menu() {
     const [button, setButton] = useState('X');
     const [user, setUser] = useState(null);
     const [imgList, setImgList] = useState([]);
+
     const [type, setType] = useState(0);
     const [theme, setTheme] = useState(0);
+    const [title, setTitle] = useState('');
+    const [desc, setDesc] = useState('');
+    const [autor, setAutor] = useState('');
 
     let path = "https://qwxbnqtgqvaccdburxbp.supabase.co/storage/v1/object/public/"
     const supabase = createClientComponentClient();
@@ -41,15 +45,18 @@ export default function Menu() {
             .select("*")
             .eq('email', mail)
 
-            if(error){
-                console.log(error)
-            }else{
-                let utilisateur = Users[0]
-                // console.log(utilisateur)
+        if (error) {
+            console.log(error)
+        } else {
+            let utilisateur = Users[0]
+            // console.log(utilisateur)
 
-                setTheme(utilisateur.theme)
-                setType(utilisateur.type)
-            }
+            setTheme(utilisateur.theme)
+            setType(utilisateur.type)
+            setTitle(utilisateur.title)
+            setDesc(utilisateur.desc)
+            setAutor(utilisateur.autor)
+        }
 
 
     }
@@ -109,25 +116,61 @@ export default function Menu() {
             .eq('email', user.email)
             .select()
     }
+    async function changeTitle(e) {
+        setTitle(e.target.value)
+        const { data, error } = await supabase
+            .from('Users')
+            .update({ title: e.target.value })
+            .eq('email', user.email)
+            .select()
+    }
+    async function changeDesc(e) {
+        setDesc(e.target.value)
+        const { data, error } = await supabase
+            .from('Users')
+            .update({ desc: e.target.value })
+            .eq('email', user.email)
+            .select()
+    }
+    async function changeAutor(e) {
+        setAutor(e.target.value)
+        const { data, error } = await supabase
+            .from('Users')
+            .update({ autor: e.target.value })
+            .eq('email', user.email)
+            .select()
+    }
+
 
     async function getPics(id) {
 
         let { data: img_list, error } = await supabase
             .from('img_list')
-            .select("img")
+            .select("*")
             .eq('id_user', id)
             .select()
             .order('id', { ascending: false })
 
+
+        img_list.forEach(i => {
+            let NameClass = ''
+            
+            if (i.favicon) NameClass += ' icon'
+            if (i.selected) NameClass += ' selected'
+            
+            i.class = NameClass
+            // console.log(i)
+
+        })
         setImgList(img_list)
         // console.log(img_list)
     }
-
     async function clickOnImage(e) {
         let arg = e.target
         let imgPath = arg.src.split('/public/')[1]
-        // console.log(e.detail)
+        // console.log(e)
 
+        // if()
         if (e.detail == 1) {
             arg.classList.toggle('selected')
             let bool = arg.classList.contains('selected')
@@ -162,13 +205,48 @@ export default function Menu() {
         getPics(user.id)
 
     }
+    async function rightClickOnImg(dom) {
+        let oldDOM = document.querySelector('.icon')
+        if (oldDOM != null) {
+            const { data, error } = await supabase
+                .from('img_list')
+                .update({ favicon: false })
+                .eq('img', oldDOM.src.split('/public/')[1])
+                .select()
+
+            if (error) {
+                console.log(error)
+            }
+            oldDOM.classList.remove('icon')
+        }
+        dom.classList.add('icon')
+
+        let imgPath = dom.src.split('/public/')[1]
+
+        const { data, error } = await supabase
+            .from('img_list')
+            .update({ favicon: true })
+            .eq('img', imgPath)
+            .select()
+
+        if (error) {
+            console.log(error)
+        }
+        getPics(user.id)
+
+        const { data2, error2 } = await supabase
+            .from('Users')
+            .update({ favicon: imgPath })
+            .eq('email', user.email)
+            .select()
+    }
 
 
     return (
         <>
             <div className={imgHidden ? 'hidden' : ''} id='imgDIV'>
                 <div id='addImgDiv'>
-                    <h1>Upload Image <p>Double Click to remove</p></h1>
+                    <h1>Upload Image <p>Left Click to select, Double to remove, Right to favicon</p></h1>
                     <input type="file" onChange={uploadFile} accept='image/jpeg, image/jpg, image/png' />
                 </div>
                 <div id='imageList'>
@@ -176,9 +254,14 @@ export default function Menu() {
                         <img
                             src={path + i.img}
                             key={i.id}
-                            alt='an image'
-                            className={i.selected ? 'selected' : ''}
+                            alt='Loading...'
+                            className={i.class}
+                            // className={i.selected ? 'selected' : '' + ' ' + i.favicon ? 'icon' : ''}
                             onClick={e => { clickOnImage(e) }}
+                            onContextMenu={(e) => {
+                                e.preventDefault()
+                                rightClickOnImg(e.target)
+                            }}
                         ></img>
                     )}
                 </div>
@@ -224,11 +307,25 @@ export default function Menu() {
                     </details>
 
 
+                    <details>
+                        <summary>Meta</summary>
+
+                        <label htmlFor="title">Title</label>
+                        <input type="text" name="title" value={title} onChange={e => { changeTitle(e) }} />
+
+                        <label htmlFor="desc">Desc</label>
+                        <textarea type="text" name="desc" value={desc} onChange={e => { changeDesc(e) }} />
+
+                        <label htmlFor="autor">Autor</label>
+                        <input type="text" name="autor" value={autor} onChange={e => { changeAutor(e) }} />
+                    </details>
+
+
                     {/* <details className={menuHidden ? 'hidden' : ''}>
                         <summary>Theme</summary>
                     </details> */}
 
-                    <button onClick={() => { setImgHidden(!imgHidden) }}>
+                    <button onClick={() => { setImgHidden(!imgHidden) }} className={menuHidden ? 'hidden' : ''}>
                         Images
                     </button>
 
