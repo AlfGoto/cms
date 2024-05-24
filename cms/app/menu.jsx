@@ -13,6 +13,7 @@ export default function Menu() {
     const [imgHidden, setImgHidden] = useState(true);
     const [button, setButton] = useState('X');
     const [user, setUser] = useState(null);
+    const [USER, setUSER] = useState(null);
     const [imgList, setImgList] = useState([]);
 
     const [type, setType] = useState(0);
@@ -49,6 +50,7 @@ export default function Menu() {
             console.log(error)
         } else {
             let utilisateur = Users[0]
+            setUSER(utilisateur)
             // console.log(utilisateur)
 
             setTheme(utilisateur.theme)
@@ -107,6 +109,8 @@ export default function Menu() {
             .update({ type: e.target.value })
             .eq('email', user.email)
             .select()
+
+        getUser()
     }
     async function themeSelect(e) {
         setTheme(e.target.value)
@@ -115,6 +119,8 @@ export default function Menu() {
             .update({ theme: e.target.value })
             .eq('email', user.email)
             .select()
+
+        getUser()
     }
     async function changeTitle(e) {
         setTitle(e.target.value)
@@ -123,6 +129,8 @@ export default function Menu() {
             .update({ title: e.target.value })
             .eq('email', user.email)
             .select()
+
+        getUser()
     }
     async function changeDesc(e) {
         setDesc(e.target.value)
@@ -131,6 +139,8 @@ export default function Menu() {
             .update({ desc: e.target.value })
             .eq('email', user.email)
             .select()
+
+        getUser()
     }
     async function changeAutor(e) {
         setAutor(e.target.value)
@@ -139,6 +149,8 @@ export default function Menu() {
             .update({ autor: e.target.value })
             .eq('email', user.email)
             .select()
+
+        getUser()
     }
 
 
@@ -154,10 +166,10 @@ export default function Menu() {
 
         img_list.forEach(i => {
             let NameClass = ''
-            
+
             if (i.favicon) NameClass += ' icon'
             if (i.selected) NameClass += ' selected'
-            
+
             i.class = NameClass
             // console.log(i)
 
@@ -236,9 +248,11 @@ export default function Menu() {
 
         const { data2, error2 } = await supabase
             .from('Users')
-            .update({ favicon: imgPath })
+            .update({ favicon: path + imgPath })
             .eq('email', user.email)
             .select()
+
+        getUser()
     }
 
 
@@ -288,7 +302,7 @@ export default function Menu() {
                         </nav>
                     </details>
 
-                    <details className={menuHidden ? 'hidden' : ''}>
+                    <details className={`${menuHidden ? 'hidden' : ''} ${user == null ? 'hidden' : ''}`}>
                         <summary>Custom</summary>
                         <label htmlFor="type">Type</label>
                         <select name="type" onChange={typeSelect} value={type}>
@@ -307,7 +321,7 @@ export default function Menu() {
                     </details>
 
 
-                    <details>
+                    <details className={`${menuHidden ? 'hidden' : ''} ${user == null ? 'hidden' : ''}`}>
                         <summary>Meta</summary>
 
                         <label htmlFor="title">Title</label>
@@ -325,9 +339,13 @@ export default function Menu() {
                         <summary>Theme</summary>
                     </details> */}
 
-                    <button onClick={() => { setImgHidden(!imgHidden) }} className={menuHidden ? 'hidden' : ''}>
+                    <button onClick={() => { setImgHidden(!imgHidden) }} className={`${menuHidden ? 'hidden' : ''} ${user == null ? 'hidden' : ''}`}>
                         Images
                     </button>
+
+                    <button onClick={() => {
+                        let file = new html(USER, imgList)
+                    }} className={`${menuHidden ? 'hidden' : ''} ${user == null ? 'hidden' : ''}`}>Download !</button>
 
 
                 </div>
