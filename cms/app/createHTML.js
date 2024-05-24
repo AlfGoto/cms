@@ -1,7 +1,9 @@
 export default class html {
     constructor(user, imgs) {
 
-        this.imgs = imgs
+        this.imgs = []
+        imgs.forEach(element => { if (element.selected) this.imgs.push(element) });
+        // this.imgs = imgs
 
         this.title = user.title
         this.desc = user.desc
@@ -9,6 +11,7 @@ export default class html {
         this.favicon = user.favicon
         this.theme = user.theme
         this.type = user.type
+        this.path = "https://qwxbnqtgqvaccdburxbp.supabase.co/storage/v1/object/public/"
 
         console.log(this)
         this.build()
@@ -49,13 +52,16 @@ export default class html {
     }
 
 
+
+
     body() {
-
-
         return `
-        <p>Hello</p>
-        `
+    <section id='left'></section>
+    <section id='center'>${this.themes[this.type]()}</section>
+    <section id='right'></section>
+    `
     }
+
 
 
 
@@ -89,9 +95,141 @@ export default class html {
     --color4: ${this.color4};
     --color5: ${this.color5};
 }
+body{
+    display: flex;
+    width: 100svw;
+    overflow-x: hidden;
+
+    #left {
+        width: 20svw;
+    }
+    #right {
+        width: 20svw;
+    }
+    #center {
+        width: 60svw;
+    }
+}
+@media (min-width: 0px) and (max-width: 600px) {
+    body {
+    
+        #center {
+            width: 100svw;
+         }
+        #left {
+            display: none;
+        }
+        #right {
+            display: none;
+        }
+    }
+}
+@media (min-width: 600px) and (max-width: 800px) {
+    body {
+    
+        #center {
+            width: 80svw;
+        }
+        #left {
+            width: 10svw;
+        }
+        #right {
+            width: 10svw;
+        }
+    }
+}
+@media (min-width: 800px) and (max-width: 1000px) {
+    body {
+    
+        #center {
+            width: 70svw;
+        }
+        #left {
+            width: 15svw;
+        }
+        #right {
+            width: 15svw;
+        }
+    }
+}
+@media (min-width: 1000px) and (max-width: 1200px) {
+    body {
+
+        #center {
+            width: 60svw;
+        }
+        #left {
+            width: 20svw;
+        }
+        #right {
+            width: 20svw;
+        }
+    }
+}
 </style>
 `
 
 
     }
+
+    themes = [
+        () => {
+
+            this.arr = ['', '', '', '']
+            for (let i = 0; i < this.imgs.length; i++) {
+
+                // this.arr[i % 4].push(this.imgs[i])
+
+                this.arr[i % 4] += `<img alt='an image made by ${this.autor}' src='${this.path + this.imgs[i].img}'   />`
+            }
+            // console.log(this.arr)
+
+
+            return `
+            <div class='row'>
+            <div class='column'>${this.arr[0]}</div>
+            <div class='column'>${this.arr[1]}</div>
+            <div class='column'>${this.arr[2]}</div>
+            <div class='column'>${this.arr[3]}</div>
+            </div>
+            <style>
+            .row {
+                display: -ms-flexbox; 
+                display: flex;
+                -ms-flex-wrap: wrap; 
+                flex-wrap: wrap;
+                padding: 0 4px;
+              }
+              
+              .column {
+                -ms-flex: 25%;
+                flex: 25%;
+                max-width: 24%;
+                padding: 0 4px;
+              }
+              
+              .column img {
+                margin-top: 8px;
+                vertical-align: middle;
+                width: 100%;
+              }
+              
+              @media screen and (max-width: 800px) {
+                .column {
+                  -ms-flex: 50%;
+                  flex: 50%;
+                  max-width: 50%;
+                }
+              }
+              
+              @media screen and (max-width: 600px) {
+                .column {
+                  -ms-flex: 100%;
+                  flex: 100%;
+                  max-width: 100%;
+                }
+              }
+              </style>`
+        }
+    ]
 }

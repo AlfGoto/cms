@@ -37,7 +37,7 @@ export default function Menu() {
         } else {
             getPics(user.id)
 
-            if(bool){
+            if (bool) {
                 getOptions(user.email)
             }
         }
@@ -96,6 +96,7 @@ export default function Menu() {
         alert('Image uploaded successfully!');
         getPics(user.id)
         event.target.value = null
+        getUser(false)
     };
 
     useEffect(() => {
@@ -221,6 +222,7 @@ export default function Menu() {
 
     }
     async function rightClickOnImg(dom) {
+        if (dom.classList.contains('icon')) return
         let oldDOM = document.querySelector('.icon')
         if (oldDOM != null) {
             const { data, error } = await supabase
