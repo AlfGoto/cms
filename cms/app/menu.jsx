@@ -25,7 +25,7 @@ export default function Menu() {
     let path = "https://qwxbnqtgqvaccdburxbp.supabase.co/storage/v1/object/public/"
     const supabase = createClientComponentClient();
 
-    async function getUser() {
+    async function getUser(bool = true) {
         const { data: { user } } = await supabase.auth.getUser()
         setUser(user)
 
@@ -36,7 +36,10 @@ export default function Menu() {
             push('/log')
         } else {
             getPics(user.id)
-            getOptions(user.email)
+
+            if(bool){
+                getOptions(user.email)
+            }
         }
     }
     async function getOptions(mail) {
@@ -110,7 +113,7 @@ export default function Menu() {
             .eq('email', user.email)
             .select()
 
-        getUser()
+        getUser(false)
     }
     async function themeSelect(e) {
         setTheme(e.target.value)
@@ -120,7 +123,7 @@ export default function Menu() {
             .eq('email', user.email)
             .select()
 
-        getUser()
+        getUser(false)
     }
     async function changeTitle(e) {
         setTitle(e.target.value)
@@ -130,7 +133,7 @@ export default function Menu() {
             .eq('email', user.email)
             .select()
 
-        getUser()
+        getUser(false)
     }
     async function changeDesc(e) {
         setDesc(e.target.value)
@@ -140,7 +143,7 @@ export default function Menu() {
             .eq('email', user.email)
             .select()
 
-        getUser()
+        getUser(false)
     }
     async function changeAutor(e) {
         setAutor(e.target.value)
@@ -150,7 +153,7 @@ export default function Menu() {
             .eq('email', user.email)
             .select()
 
-        getUser()
+        getUser(false)
     }
 
 
@@ -314,7 +317,7 @@ export default function Menu() {
                         <label htmlFor="theme">Theme</label>
                         <select name="theme" onChange={themeSelect} value={theme}>
                             <option value="0">Dark White</option>
-                            <option value="1">Blue</option>
+                            <option value="1">Purple</option>
                             <option value="2">Red</option>
                             <option value="3">Green</option>
                         </select>
@@ -334,10 +337,6 @@ export default function Menu() {
                         <input type="text" name="autor" value={autor} onChange={e => { changeAutor(e) }} />
                     </details>
 
-
-                    {/* <details className={menuHidden ? 'hidden' : ''}>
-                        <summary>Theme</summary>
-                    </details> */}
 
                     <button onClick={() => { setImgHidden(!imgHidden) }} className={`${menuHidden ? 'hidden' : ''} ${user == null ? 'hidden' : ''}`}>
                         Images

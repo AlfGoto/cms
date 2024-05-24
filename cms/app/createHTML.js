@@ -15,7 +15,7 @@ export default class html {
     }
     build() {
         this.html = `
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -24,9 +24,10 @@ export default class html {
     <meta name="description" content="${this.desc}">
     <meta name="autor" content="${this.autor}">
     <link rel="shortcut icon" href="${this.favicon}">
+    ${this.style()}
 </head>
 <body>
-    
+    ${this.body()}
 </body>
 </html>
 
@@ -38,12 +39,59 @@ export default class html {
         var element = document.createElement('a');
         element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
         element.setAttribute('download', filename);
-      
+
         element.style.display = 'none';
         document.body.appendChild(element);
-      
+
         element.click();
-      
+
         document.body.removeChild(element);
-      }
+    }
+
+
+    body() {
+
+
+        return `
+        <p>Hello</p>
+        `
+    }
+
+
+
+    style() {
+        // console.log(this.theme)
+
+        switch (this.theme) {
+            case 0:
+                this.color1 = '';
+                this.color2 = '';
+                this.color3 = '';
+                this.color4 = '';
+                this.color5 = '';
+                break;
+            case 1:
+                this.color1 = '#3e2d56';
+                this.color2 = '#654476';
+                this.color3 = '#9f60a7';
+                this.color4 = '#f186e4';
+                this.color5 = '#ffc3f4';
+                break;
+
+        }
+
+        return `
+<style>
+:root{
+    --color1 : ${this.color1};
+    --color2: ${this.color2};
+    --color3: ${this.color3};
+    --color4: ${this.color4};
+    --color5: ${this.color5};
+}
+</style>
+`
+
+
+    }
 }
