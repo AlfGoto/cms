@@ -60,6 +60,7 @@ export default function Menu() {
 
         alert('Image uploaded successfully!');
         getPics(user.id)
+        event.target.value = null
     };
 
     useEffect(() => {
@@ -97,22 +98,44 @@ export default function Menu() {
         // console.log(img_list)
     }
 
-    async function clickOnImage(arg){
+    async function clickOnImage(e) {
+        let arg = e.target
         let imgPath = arg.src.split('/public/')[1]
-        arg.classList.toggle('selected')
-        let bool = arg.classList.contains('selected')
-        console.log(bool)
-        console.log(imgPath)
+        // console.log(e.detail)
 
-        const { data, error } = await supabase
-            .from('img_list')
-            .update({ selected: bool })
-            .eq('img', arg.src.split('/public/')[1])
-            .select()
+        if (e.detail == 1) {
+            arg.classList.toggle('selected')
+            let bool = arg.classList.contains('selected')
+            // console.log(bool)
+            // console.log(imgPath)
 
-            if(error){
+            const { data, error } = await supabase
+                .from('img_list')
+                .update({ selected: bool })
+                .eq('img', imgPath)
+                .select()
+
+            if (error) {
                 console.log(error)
             }
+        } else if (e.detail == 2) {
+            const { error } = await supabase
+                .from('img_list')
+                .delete()
+                .eq('img', imgPath)
+
+            if (error) console.log(error)
+
+            const { data, error2 } = await supabase
+                .storage
+                .from('Images')
+                .remove([imgPath.split('/')[1]])
+
+            if (error2) console.log(error2)
+        }
+
+        getPics(user.id)
+
     }
 
 
@@ -120,7 +143,7 @@ export default function Menu() {
         <>
             <div className={imgHidden ? 'hidden' : ''} id='imgDIV'>
                 <div id='addImgDiv'>
-                    <h1>Upload Image</h1>
+                    <h1>Upload Image <p>Double Click to remove</p></h1>
                     <input type="file" onChange={uploadFile} accept='image/jpeg, image/jpg, image/png' />
                 </div>
                 <div id='imageList'>
@@ -130,7 +153,7 @@ export default function Menu() {
                             key={i.id}
                             alt='an image'
                             className={i.selected ? 'selected' : ''}
-                            onClick={e=>{clickOnImage(e.target)}}
+                            onClick={e => { clickOnImage(e) }}
                         ></img>
                     )}
                 </div>

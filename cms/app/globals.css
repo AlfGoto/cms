@@ -55,6 +55,20 @@ body {
                 width: 100%;
                 padding: 1svw;
 
+                h1{
+                    display: flex;
+                    gap: 1svw;
+                    p{
+                        color: gray;
+                        font-size: .8svw;
+                        align-items: center;
+                        height: fit-content;
+                        align-self: center;
+                        /* margin-left: ; */
+                        /* margin: .5svw; */
+                    }
+                }
+
                 input[type=file] {
     
                     &::file-selector-button {
