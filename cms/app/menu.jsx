@@ -22,7 +22,7 @@ export default function Menu() {
         const { data: { user } } = await supabase.auth.getUser()
         setUser(user)
 
-        console.log(user)
+        // console.log(user)
         if (!user) {
             console.log('REDIRECT')
             push('/log')
@@ -91,9 +91,28 @@ export default function Menu() {
             .select("img")
             .eq('id_user', id)
             .select()
+            .order('id', { ascending: false })
 
         setImgList(img_list)
         // console.log(img_list)
+    }
+
+    async function clickOnImage(arg){
+        let imgPath = arg.src.split('/public/')[1]
+        arg.classList.toggle('selected')
+        let bool = arg.classList.contains('selected')
+        console.log(bool)
+        console.log(imgPath)
+
+        const { data, error } = await supabase
+            .from('img_list')
+            .update({ selected: bool })
+            .eq('img', arg.src.split('/public/')[1])
+            .select()
+
+            if(error){
+                console.log(error)
+            }
     }
 
 
@@ -105,7 +124,14 @@ export default function Menu() {
                     <input type="file" onChange={uploadFile} accept='image/jpeg, image/jpg, image/png' />
                 </div>
                 <div id='imageList'>
-                    {imgList?.map(i=><img src={path + i.img} key={i.id} alt='an image'></img>
+                    {imgList?.map(i =>
+                        <img
+                            src={path + i.img}
+                            key={i.id}
+                            alt='an image'
+                            className={i.selected ? 'selected' : ''}
+                            onClick={e=>{clickOnImage(e.target)}}
+                        ></img>
                     )}
                 </div>
             </div>
@@ -132,25 +158,27 @@ export default function Menu() {
                     </details>
 
                     <details className={menuHidden ? 'hidden' : ''}>
-                        <summary>Type</summary>
+                        <summary>Custom</summary>
+                        <label htmlFor="type">Type</label>
                         <select name="type" onChange={typeSelect}>
                             <option value="0">Gallery</option>
                             <option value="1">Carroussel</option>
                             <option value="2">Linear Gallery</option>
                             <option value="3">Article</option>
                         </select>
-                    </details>
-
-
-                    <details className={menuHidden ? 'hidden' : ''}>
-                        <summary>Theme</summary>
-                        <select name="type" onChange={themeSelect}>
+                        <label htmlFor="theme">Theme</label>
+                        <select name="theme" onChange={themeSelect}>
                             <option value="0">Dark White</option>
                             <option value="1">Blue</option>
                             <option value="2">Red</option>
                             <option value="3">Green</option>
                         </select>
                     </details>
+
+
+                    {/* <details className={menuHidden ? 'hidden' : ''}>
+                        <summary>Theme</summary>
+                    </details> */}
 
                     <button onClick={() => { setImgHidden(!imgHidden) }}>
                         Images

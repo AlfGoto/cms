@@ -1,5 +1,6 @@
 :root {
     --widthImgMenu: 45svw;
+    --imgInMenu: calc(var(--widthImgMenu) / 5.47)
 }
 
 * {
@@ -75,8 +76,15 @@ body {
 
                 img{
                     
-                    max-height: 10svw;
-                    max-width: 10svw;
+                    /* height: 8.2svw; */
+                    /* width: 8.5svw; */
+                    width: var(--imgInMenu);
+                    height: var(--imgInMenu);
+                    margin: .2svw;
+
+                    &.selected{
+                        border: .4svw blue solid;
+                    }
                 }
             }
 
