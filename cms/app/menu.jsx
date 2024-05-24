@@ -14,6 +14,8 @@ export default function Menu() {
     const [button, setButton] = useState('X');
     const [user, setUser] = useState(null);
     const [imgList, setImgList] = useState([]);
+    const [type, setType] = useState(0);
+    const [theme, setTheme] = useState(0);
 
     let path = "https://qwxbnqtgqvaccdburxbp.supabase.co/storage/v1/object/public/"
     const supabase = createClientComponentClient();
@@ -23,12 +25,33 @@ export default function Menu() {
         setUser(user)
 
         // console.log(user)
+
         if (!user) {
             console.log('REDIRECT')
             push('/log')
         } else {
             getPics(user.id)
+            getOptions(user.email)
         }
+    }
+    async function getOptions(mail) {
+
+        let { data: Users, error } = await supabase
+            .from('Users')
+            .select("*")
+            .eq('email', mail)
+
+            if(error){
+                console.log(error)
+            }else{
+                let utilisateur = Users[0]
+                // console.log(utilisateur)
+
+                setTheme(utilisateur.theme)
+                setType(utilisateur.type)
+            }
+
+
     }
 
     const uploadFile = async (event) => {
@@ -71,6 +94,7 @@ export default function Menu() {
     const { push } = useRouter();
 
     async function typeSelect(e) {
+        setType(e.target.value)
         const { data, error } = await supabase
             .from('Users')
             .update({ type: e.target.value })
@@ -78,6 +102,7 @@ export default function Menu() {
             .select()
     }
     async function themeSelect(e) {
+        setTheme(e.target.value)
         const { data, error } = await supabase
             .from('Users')
             .update({ theme: e.target.value })
@@ -183,14 +208,14 @@ export default function Menu() {
                     <details className={menuHidden ? 'hidden' : ''}>
                         <summary>Custom</summary>
                         <label htmlFor="type">Type</label>
-                        <select name="type" onChange={typeSelect}>
+                        <select name="type" onChange={typeSelect} value={type}>
                             <option value="0">Gallery</option>
                             <option value="1">Carroussel</option>
                             <option value="2">Linear Gallery</option>
                             <option value="3">Article</option>
                         </select>
                         <label htmlFor="theme">Theme</label>
-                        <select name="theme" onChange={themeSelect}>
+                        <select name="theme" onChange={themeSelect} value={theme}>
                             <option value="0">Dark White</option>
                             <option value="1">Blue</option>
                             <option value="2">Red</option>
