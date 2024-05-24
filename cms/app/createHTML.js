@@ -230,6 +230,107 @@ body{
                 }
               }
               </style>`
+        },
+        ()=>{
+
         }
     ]
 }
+
+
+
+
+//carroussel
+
+
+{/* <div class="carousel" id="test1">
+	<input type="radio" name="item" value="1" checked>
+	<div>
+    <img src="https://qwxbnqtgqvaccdburxbp.supabase.co/storage/v1/object/public/Images/1716563413803-alfgoto@gmail.com">
+	</div>
+
+	<input type="radio" name="item" value="2">
+	<div>
+     <img src="https://qwxbnqtgqvaccdburxbp.supabase.co/storage/v1/object/public/Images/1716563413803-alfgoto@gmail.com">
+	</div>
+
+	<input type="radio" name="item" value="3">
+	<div>
+     <img src="https://qwxbnqtgqvaccdburxbp.supabase.co/storage/v1/object/public/Images/1716563413803-alfgoto@gmail.com" >
+	</div>
+
+	<input type="radio" name="item" value="4">
+	<div>
+		<img src="https://qwxbnqtgqvaccdburxbp.supabase.co/storage/v1/object/public/Images/1716563413803-alfgoto@gmail.com">
+	</div>
+</div>
+
+
+.carousel {
+  position: relative;
+}
+.carousel	input {
+  position: absolute;
+  left: 0;
+  z-index: 3;
+  margin: 0;
+}
+.carousel input:before {
+  position: absolute;
+  content: "<";
+}
+input:checked ~ input:before {
+  content: ">";
+}
+input:checked {
+  display: none;
+}
+input:checked ~ input {
+  right: 0;
+  left: auto;		
+}
+input:checked + div + input {
+  z-index: 4;
+}
+input + div {
+  position: absolute;
+  z-index: 1;
+}  
+input:checked + div {
+  z-index: 2;
+}  
+
+
+
+body {
+  font: 90% / 1.5 Arial;
+  text-align: center;
+}
+.carousel {
+  width: 600px;
+  height: 350px;
+  margin: 2em auto;
+  overflow:hidden;
+  transform: translateZ(0px); 
+  box-shadow: 0 0 2px 1px #ccc;
+}
+.carousel	input {
+  top: 150px;
+  width: 60px;
+  height: 60px;
+  left: 10px;
+}
+input:checked ~ input {
+  right: 10px;	
+}
+.carousel input:before {
+  background: #888;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 25px;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  border: 5px solid #fff;
+} */}
