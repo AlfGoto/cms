@@ -313,15 +313,11 @@ export default function Menu() {
                         <select name="type" onChange={typeSelect} value={type}>
                             <option value="0">Gallery</option>
                             <option value="1">Carroussel</option>
-                            <option value="2">Linear Gallery</option>
-                            <option value="3">Article</option>
                         </select>
                         <label htmlFor="theme">Theme</label>
                         <select name="theme" onChange={themeSelect} value={theme}>
                             <option value="0">Dark White</option>
                             <option value="1">Purple</option>
-                            <option value="2">Red</option>
-                            <option value="3">Green</option>
                         </select>
                     </details>
 

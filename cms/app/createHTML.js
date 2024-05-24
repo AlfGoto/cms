@@ -13,7 +13,19 @@ export default class html {
         this.type = user.type
         this.path = "https://qwxbnqtgqvaccdburxbp.supabase.co/storage/v1/object/public/"
 
-        console.log(this)
+        // console.log(this)
+        
+
+
+
+        this.rightArrow = '<svg id="rightArrow" version="1.1" id="icons_1_" xmlns="http://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 128 128" style="enable-background:new 0 0 128 128" xml:space="preserve"><style>.st0{display:none}.st1{display:inline}</style><g id="row1_1_"><g id="_x31__3_"><path class="st2" d="M64 0C28.7 0 0 28.7 0 64s28.7 64 64 64 64-28.7 64-64S99.3 0 64 0zm0 121.6C32.2 121.6 6.4 95.8 6.4 64S32.2 6.4 64 6.4s57.6 25.8 57.6 57.6-25.8 57.6-57.6 57.6zM49.2 38.4 73.6 64 49.2 89.6h13.5L86.4 64 62.7 38.4H49.2z" id="_x32__2_"/></g></g></svg>'
+        this.leftArrow = '<svg id="leftArrow" version="1.1" id="icons_1_" xmlns="http://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 128 128" style="enable-background:new 0 0 128 128" xml:space="preserve"><style>.st0{display:none}.st1{display:inline}</style><g id="row2_1_"><g id="_x31__4_"><path class="st2" d="M64 .3C28.7.3 0 28.8 0 64s28.7 63.7 64 63.7 64-28.5 64-63.7S99.3.3 64 .3zm0 121C32.2 121.3 6.4 95.7 6.4 64 6.4 32.3 32.2 6.7 64 6.7s57.6 25.7 57.6 57.3c0 31.7-25.8 57.3-57.6 57.3zm1.3-82.8L41.6 64l23.6 25.5h13.5L54.4 64l24.4-25.5H65.3z" id="left_3_"/></g></g></svg>'
+
+
+
+
+
+
         this.build()
     }
     build() {
@@ -109,6 +121,9 @@ body{
     #center {
         width: 60svw;
     }
+}
+.st2{
+    fill:${this.color1}
 }
 @media (min-width: 0px) and (max-width: 600px) {
     body {
@@ -233,104 +248,87 @@ body{
         },
         ()=>{
 
+            this.str = ''
+            for (let i = 0; i < this.imgs.length; i++) {
+
+                // this.arr[i % 4].push(this.imgs[i])
+
+                this.str += `
+            <img src="${this.path + this.imgs[i].img}" class='imgs' alt='an image uploaded by ${this.autor}' style="display:none;"/>
+                `
+            }
+
+
+            return `
+
+        <div id='carroussel'>
+${this.leftArrow}
+${this.rightArrow}
+${this.str}
+        </div>
+
+<script>
+let right = document.getElementById('rightArrow')
+let left = document.getElementById('leftArrow')
+let imgs = Array.from(document.getElementsByClassName('imgs'))
+let pointer = 0
+
+imgs[0].style.display = 'block'
+
+right.addEventListener('click', ()=>{
+    imgs[pointer].style.display = 'none'
+    pointer++
+    if(pointer == imgs.length)pointer = 0
+    imgs[pointer].style.display = 'block'
+})
+left.addEventListener('click', ()=>{
+    imgs[pointer].style.display = 'none'
+    pointer--
+    if(pointer == -1)pointer = imgs.length - 1  
+    imgs[pointer].style.display = 'block'
+})
+
+// console.log(right, left)
+</script>
+<style>
+*{
+    user-select: none;
+}
+#carroussel{
+    position: relative;
+    width: 100%;
+    height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img{
+        position: absolute;
+        object-fit: cover;
+        max-width: 75%;
+        max-height: 80svh;
+        width: auto;
+        height: auto;
+    }
+}
+#rightArrow{
+    height: 100px;
+    position: absolute;
+    top: 40svh;
+    right: 1px;
+    z-index:1;
+}
+#leftArrow{
+    height: 100px;
+    position: absolute;
+    top: 40svh;
+    left: 1px;
+    z-index:1;
+}
+</style>
+            `
         }
     ]
 }
 
 
-
-
-//carroussel
-
-
-{/* <div class="carousel" id="test1">
-	<input type="radio" name="item" value="1" checked>
-	<div>
-    <img src="https://qwxbnqtgqvaccdburxbp.supabase.co/storage/v1/object/public/Images/1716563413803-alfgoto@gmail.com">
-	</div>
-
-	<input type="radio" name="item" value="2">
-	<div>
-     <img src="https://qwxbnqtgqvaccdburxbp.supabase.co/storage/v1/object/public/Images/1716563413803-alfgoto@gmail.com">
-	</div>
-
-	<input type="radio" name="item" value="3">
-	<div>
-     <img src="https://qwxbnqtgqvaccdburxbp.supabase.co/storage/v1/object/public/Images/1716563413803-alfgoto@gmail.com" >
-	</div>
-
-	<input type="radio" name="item" value="4">
-	<div>
-		<img src="https://qwxbnqtgqvaccdburxbp.supabase.co/storage/v1/object/public/Images/1716563413803-alfgoto@gmail.com">
-	</div>
-</div>
-
-
-.carousel {
-  position: relative;
-}
-.carousel	input {
-  position: absolute;
-  left: 0;
-  z-index: 3;
-  margin: 0;
-}
-.carousel input:before {
-  position: absolute;
-  content: "<";
-}
-input:checked ~ input:before {
-  content: ">";
-}
-input:checked {
-  display: none;
-}
-input:checked ~ input {
-  right: 0;
-  left: auto;		
-}
-input:checked + div + input {
-  z-index: 4;
-}
-input + div {
-  position: absolute;
-  z-index: 1;
-}  
-input:checked + div {
-  z-index: 2;
-}  
-
-
-
-body {
-  font: 90% / 1.5 Arial;
-  text-align: center;
-}
-.carousel {
-  width: 600px;
-  height: 350px;
-  margin: 2em auto;
-  overflow:hidden;
-  transform: translateZ(0px); 
-  box-shadow: 0 0 2px 1px #ccc;
-}
-.carousel	input {
-  top: 150px;
-  width: 60px;
-  height: 60px;
-  left: 10px;
-}
-input:checked ~ input {
-  right: 10px;	
-}
-.carousel input:before {
-  background: #888;
-  border-radius: 50%;
-  color: #fff;
-  font-size: 25px;
-  width: 50px;
-  height: 50px;
-  line-height: 50px;
-  text-align: center;
-  border: 5px solid #fff;
-} */}
