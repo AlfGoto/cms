@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import InnerHTML from 'dangerously-set-html-content'
 
 export default function Preview() {
-    const [preview, setPreview] = useState('<p>Loading...</p>')
+    const [preview, setPreview] = useState('<p></p>')
 
 
     useEffect(()=>{
@@ -13,7 +13,7 @@ export default function Preview() {
     function checkPreviewChange(arg){
         setTimeout(()=>{
             let actualPreview = localStorage.getItem('preview')
-            if(arg != actualPreview){
+            if(arg != actualPreview && actualPreview != null){
                 console.log('New preview')
                 setPreview(actualPreview)
                 checkPreviewChange(actualPreview)
