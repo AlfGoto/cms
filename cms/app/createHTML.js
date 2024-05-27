@@ -1,6 +1,10 @@
 export default class html {
     constructor(user, imgs) {
 
+
+        this.rightArrow = '<svg id="rightArrow" version="1.1" id="icons_1_" xmlns="http://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 128 128" style="enable-background:new 0 0 128 128" xml:space="preserve"><style>.st0{display:none}.st1{display:inline}</style><g id="row1_1_"><g id="_x31__3_"><path class="st2" d="M64 0C28.7 0 0 28.7 0 64s28.7 64 64 64 64-28.7 64-64S99.3 0 64 0zm0 121.6C32.2 121.6 6.4 95.8 6.4 64S32.2 6.4 64 6.4s57.6 25.8 57.6 57.6-25.8 57.6-57.6 57.6zM49.2 38.4 73.6 64 49.2 89.6h13.5L86.4 64 62.7 38.4H49.2z" id="_x32__2_"/></g></g></svg>'
+        this.leftArrow = '<svg id="leftArrow" version="1.1" id="icons_1_" xmlns="http://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 128 128" style="enable-background:new 0 0 128 128" xml:space="preserve"><style>.st0{display:none}.st1{display:inline}</style><g id="row2_1_"><g id="_x31__4_"><path class="st2" d="M64 .3C28.7.3 0 28.8 0 64s28.7 63.7 64 63.7 64-28.5 64-63.7S99.3.3 64 .3zm0 121C32.2 121.3 6.4 95.7 6.4 64 6.4 32.3 32.2 6.7 64 6.7s57.6 25.7 57.6 57.3c0 31.7-25.8 57.3-57.6 57.3zm1.3-82.8L41.6 64l23.6 25.5h13.5L54.4 64l24.4-25.5H65.3z" id="left_3_"/></g></g></svg>'
+
         this.imgs = []
         imgs.forEach(element => { if (element.selected) this.imgs.push(element) });
         // this.imgs = imgs
@@ -13,46 +17,43 @@ export default class html {
         this.type = user.type
         this.path = "https://qwxbnqtgqvaccdburxbp.supabase.co/storage/v1/object/public/"
 
-        // console.log(this)
-        
-
-
-
-        this.rightArrow = '<svg id="rightArrow" version="1.1" id="icons_1_" xmlns="http://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 128 128" style="enable-background:new 0 0 128 128" xml:space="preserve"><style>.st0{display:none}.st1{display:inline}</style><g id="row1_1_"><g id="_x31__3_"><path class="st2" d="M64 0C28.7 0 0 28.7 0 64s28.7 64 64 64 64-28.7 64-64S99.3 0 64 0zm0 121.6C32.2 121.6 6.4 95.8 6.4 64S32.2 6.4 64 6.4s57.6 25.8 57.6 57.6-25.8 57.6-57.6 57.6zM49.2 38.4 73.6 64 49.2 89.6h13.5L86.4 64 62.7 38.4H49.2z" id="_x32__2_"/></g></g></svg>'
-        this.leftArrow = '<svg id="leftArrow" version="1.1" id="icons_1_" xmlns="http://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 128 128" style="enable-background:new 0 0 128 128" xml:space="preserve"><style>.st0{display:none}.st1{display:inline}</style><g id="row2_1_"><g id="_x31__4_"><path class="st2" d="M64 .3C28.7.3 0 28.8 0 64s28.7 63.7 64 63.7 64-28.5 64-63.7S99.3.3 64 .3zm0 121C32.2 121.3 6.4 95.7 6.4 64 6.4 32.3 32.2 6.7 64 6.7s57.6 25.7 57.6 57.3c0 31.7-25.8 57.3-57.6 57.3zm1.3-82.8L41.6 64l23.6 25.5h13.5L54.4 64l24.4-25.5H65.3z" id="left_3_"/></g></g></svg>'
-
-
-
-
-
 
         this.build()
     }
     build() {
-        this.html = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${this.title}</title>
-    <meta name="description" content="${this.desc}">
-    <meta name="autor" content="${this.autor}">
-    <link rel="shortcut icon" href="${this.favicon}">
-    ${this.style()}
-</head>
-<body>
-    ${this.body()}
-</body>
-</html>
 
+
+        this.html = `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>${this.title}</title>
+        <meta name="description" content="${this.desc}">
+        <meta name="autor" content="${this.autor}">
+        <link rel="shortcut icon" href="${this.favicon}">
+        ${this.style()}
+        </head>
+        <body>
+        ${this.body()}
+        </body>
+        </html>
+        
         `
 
-        this.download('index.html', this.html)
+        this.preview = `
+        ${this.style()}
+        ${this.themes[this.type]()}
+        `
+        // console.log(this)
+        // this.download('index.html', this.html)
     }
-    download(filename, text) {
+    download(filename) {
+        // console.log(this.html)
+        // console.log(this)
         var element = document.createElement('a');
-        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(this.html));
         element.setAttribute('download', filename);
 
         element.style.display = 'none';
@@ -67,15 +68,14 @@ export default class html {
 
 
     body() {
+
+
         return `
     <section id='left'></section>
     <section id='center'>${this.themes[this.type]()}</section>
     <section id='right'></section>
     `
     }
-
-
-
 
     style() {
         // console.log(this.theme)
@@ -199,6 +199,8 @@ body{
             }
             // console.log(this.arr)
 
+            
+
 
             return `
             <div class='row'>
@@ -246,7 +248,7 @@ body{
               }
               </style>`
         },
-        ()=>{
+        () => {
 
             this.str = ''
             for (let i = 0; i < this.imgs.length; i++) {
@@ -259,6 +261,7 @@ body{
             }
 
 
+            let ml = `ml_${Date.now()}`;
             return `
 
         <div id='carroussel'>
@@ -268,24 +271,22 @@ ${this.str}
         </div>
 
 <script>
-let right = document.getElementById('rightArrow')
-let left = document.getElementById('leftArrow')
-let imgs = Array.from(document.getElementsByClassName('imgs'))
-let pointer = 0
 
-imgs[0].style.display = 'block'
+let ${ml} = 0
 
-right.addEventListener('click', ()=>{
-    imgs[pointer].style.display = 'none'
-    pointer++
-    if(pointer == imgs.length)pointer = 0
-    imgs[pointer].style.display = 'block'
+Array.from(document.getElementsByClassName('imgs'))[0].style.display = 'block'
+
+document.getElementById('rightArrow').addEventListener('click', ()=>{
+    Array.from(document.getElementsByClassName('imgs'))[${ml}].style.display = 'none'
+    ${ml}++
+    if(${ml} == Array.from(document.getElementsByClassName('imgs')).length)${ml} = 0
+    Array.from(document.getElementsByClassName('imgs'))[${ml}].style.display = 'block'
 })
-left.addEventListener('click', ()=>{
-    imgs[pointer].style.display = 'none'
-    pointer--
-    if(pointer == -1)pointer = imgs.length - 1  
-    imgs[pointer].style.display = 'block'
+document.getElementById('leftArrow').addEventListener('click', ()=>{
+    Array.from(document.getElementsByClassName('imgs'))[${ml}].style.display = 'none'
+    ${ml}--
+    if(${ml} == -1)${ml} = Array.from(document.getElementsByClassName('imgs')).length - 1  
+    Array.from(document.getElementsByClassName('imgs'))[${ml}].style.display = 'block'
 })
 
 // console.log(right, left)

@@ -26,12 +26,17 @@ body {
 
 
         height: 100svh;
-        background-color: aqua;
+        /* background-color: aqua; */
+    }
+
+    #previewDIV{
+        z-index: 0;
     }
 
     #menu {
         position: absolute;
 
+        z-index: 1;
 
         #imgDIV {
             position: absolute;
@@ -87,6 +92,7 @@ body {
             #imageList{
                 display: flex;
                 flex-wrap: wrap;
+                overflow-y: scroll;
 
                 img{
                     

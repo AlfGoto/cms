@@ -22,27 +22,25 @@ export default function Menu() {
     const [desc, setDesc] = useState('');
     const [autor, setAutor] = useState('');
 
+
     let path = "https://qwxbnqtgqvaccdburxbp.supabase.co/storage/v1/object/public/"
     const supabase = createClientComponentClient();
 
     async function getUser(bool = true) {
         const { data: { user } } = await supabase.auth.getUser()
         setUser(user)
-
         // console.log(user)
 
-        if (!user) {
+        if (user == null) {
             console.log('REDIRECT')
             push('/log')
         } else {
             getPics(user.id)
 
-            if (bool) {
-                getOptions(user.email)
-            }
+            getOptions(user.email, bool)
         }
     }
-    async function getOptions(mail) {
+    async function getOptions(mail, bool) {
 
         let { data: Users, error } = await supabase
             .from('Users')
@@ -54,13 +52,18 @@ export default function Menu() {
         } else {
             let utilisateur = Users[0]
             setUSER(utilisateur)
+            // let fileBuilder = new html(utilisateur, imgList)
+            // fileBuilder.build(utilisateur, imgList)
             // console.log(utilisateur)
 
-            setTheme(utilisateur.theme)
-            setType(utilisateur.type)
-            setTitle(utilisateur.title)
-            setDesc(utilisateur.desc)
-            setAutor(utilisateur.autor)
+            if(bool){
+                setTheme(utilisateur.theme)
+                setType(utilisateur.type)
+                setTitle(utilisateur.title)
+                setDesc(utilisateur.desc)
+                setAutor(utilisateur.autor)
+            }
+
         }
 
 
@@ -260,6 +263,9 @@ export default function Menu() {
         getUser()
     }
 
+    function updateLocal(name, value){
+        localStorage.setItem(name, value)
+    }
 
     return (
         <>
@@ -286,11 +292,8 @@ export default function Menu() {
                 </div>
             </div>
 
-
-
             <Draggable allowAnyClick='false' cancel='select, details, button'>
                 <div>
-
 
                     <button onClick={() => {
                         setButton(menuHidden ? 'X' : 'Menu')
@@ -341,7 +344,14 @@ export default function Menu() {
                     </button>
 
                     <button onClick={() => {
-                        let file = new html(USER, imgList)
+                        let fileBuilder = new html(USER, imgList)
+                        // setCookie('preview', fileBuilder.getPreview())
+                        updateLocal('preview', fileBuilder.preview)
+                    }} className={`${menuHidden ? 'hidden' : ''} ${user == null ? 'hidden' : ''}`}>Preview !</button>
+
+                    <button onClick={() => {
+                        let fileBuilder = new html(USER, imgList)
+                        fileBuilder.download('index.html')
                     }} className={`${menuHidden ? 'hidden' : ''} ${user == null ? 'hidden' : ''}`}>Download !</button>
 
 
